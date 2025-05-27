@@ -1,0 +1,23 @@
+﻿@model Artist
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="AdminArtist" asp-action="Create">
+            <div class="form-group">
+                <input type="hidden" asp-for="Id"/>
+            </div>
+            <div class="form-group">
+                <input asp-for="Name"/>
+            </div>
+            <div class="form-group">
+                <input asp-for="UrlImg"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Albums"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
+</div>

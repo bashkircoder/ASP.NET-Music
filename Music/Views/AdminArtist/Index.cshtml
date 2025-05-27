@@ -1,0 +1,27 @@
+﻿@model List<Artist>
+
+<div class="container py-5">
+    <h1 class="text-center mb-5">Популярные Артисты</h1>
+    
+    <div>
+        <a asp-controller="AdminArtist" asp-action="Create" class="btn btn-primary">Создать нового исполнителя</a>
+    </div>
+
+    <div class="row">
+        
+        @foreach (var artist in Model)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card album-card">
+                    <img src="@artist.UrlImg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@artist.Name</h5>
+                        <a asp-action="Update" asp-route-id="@artist.Id" class="btn btn-primary">Изменить</a>
+                        <a asp-controller="AdminAlbum" asp-action="Index" asp-route-id="@artist.Id" class="btn btn-primary">Перейти</a>
+                        <a asp-action="Delete" asp-route-id="@artist.Id" class="btn btn-primary">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
