@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Music.Common;
 using Music.Data.Repositories.Interfaces;
 using Music.Helpers;
 using Music.Models;
@@ -8,9 +9,10 @@ namespace Music.Controllers;
 
 public class AlbumController(IAlbumRepository albumRepository) : Controller
 {
-    
-    public async Task<IActionResult> Index(int artistId, SortedType sortedType = SortedType.None, string albumName = "")
+    private const int _pageSize = 3;
+    public async Task<IActionResult> Index(int artistId, SortedType sortedType = SortedType.None, string albumName = "", int page = 1)
     {
+        
         var albums = await albumRepository.GetAlbumsByArtistIdAsync(artistId);
          
         var filteredAlbums = albums.Where(a => a.Name.Contains(albumName, StringComparison.InvariantCultureIgnoreCase)).ToList();
@@ -24,13 +26,18 @@ public class AlbumController(IAlbumRepository albumRepository) : Controller
             case SortedType.None: 
                 break;
         }
-
-        var albumViewModel = new AlbumViewModel();
-        albumViewModel.ArtistId = artistId;
-        albumViewModel.Albums = filteredAlbums;
-        albumViewModel.SortedType = sortedType;
-        albumViewModel.AlbumName = albumName;
         
+        filteredAlbums = filteredAlbums.Skip((page - 1) * _pageSize).Take(_pageSize).ToList();
+
+        var albumViewModel = new AlbumViewModel
+        {
+            PageViewModel = new PageViewModel(filteredAlbums.Count, page, _pageSize),
+            ArtistId = artistId,
+            Albums = filteredAlbums,
+            SortedType = sortedType,
+            AlbumName = albumName
+        };
+
         return View(albumViewModel);
     }
     
