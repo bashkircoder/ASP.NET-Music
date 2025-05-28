@@ -1,0 +1,17 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Music.Data.Repositories;
+using Music.Helpers;
+using Music.Models;
+
+namespace Music.ViewModels;
+
+public class AlbumViewModel
+{
+    public int ArtistId { get; set; }
+
+    public  SortedType SortedType { get; set; } = 0;
+
+    public  string AlbumName { get; set; } = "";
+
+    public  List<Album> Albums { get; set; } = [];
+}

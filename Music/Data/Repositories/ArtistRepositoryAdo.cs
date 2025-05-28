@@ -18,9 +18,8 @@ public class ArtistRepositoryAdo(MusicDbContext context) : IArtistRepository
         var artist = await context.Artists
             .AsNoTracking()
             .Include(a => a.Albums)
-            .Where(x => x.Id == id).ToListAsync();
-
-        return artist[0];
+            .FirstAsync(x => x.Id == id);
+        return artist;
     }
 
     public async Task AddAsync(Artist newArtist)
@@ -34,7 +33,7 @@ public class ArtistRepositoryAdo(MusicDbContext context) : IArtistRepository
             Albums = null
         };
         await context.Artists.AddAsync(artist);
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
     
     public async Task UpdateAsync(Artist newArtist)
@@ -46,12 +45,12 @@ public class ArtistRepositoryAdo(MusicDbContext context) : IArtistRepository
         artist.UrlImg = newArtist.UrlImg;
         artist.Albums = null;
         
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
     
-    public void Delete(Artist artist)
+    public async Task Delete(Artist artist)
     {
         context.Artists.Remove(artist);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

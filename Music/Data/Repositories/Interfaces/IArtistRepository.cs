@@ -10,7 +10,7 @@ public interface IArtistRepository
     
     Task AddAsync(Artist artist);
 
-    public void Delete(Artist artist);
+    Task Delete(Artist artist);
 
-    public Task UpdateAsync(Artist newArtist);
+    Task UpdateAsync(Artist newArtist);
 }

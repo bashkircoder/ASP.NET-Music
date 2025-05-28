@@ -3,6 +3,13 @@
 <div class="container py-5">
     <h1 class="text-center mb-5">Популярные Артисты</h1>
 
+    <form method="get" asp-controller="Home" asp-action="Index">
+        <p>
+            <label>Название: <input type="text" name="artistName" /></label>
+            <input type="submit" value="Поиск">
+        </p>
+    </form>
+
     <div class="row">
 
         @foreach (var artist in Model)
@@ -12,7 +19,9 @@
                     <img src="@artist.UrlImg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">@artist.Name</h5>
-                        <a asp-controller="Album" asp-action="Index" asp-route-id="@artist.Id" class="btn btn-primary">Перейти</a>
+                        <a asp-controller="Album" asp-action="Index" 
+                           asp-route-artistid="@artist.Id"
+                           class="btn btn-primary">Перейти</a>
                     </div>
                 </div>
             </div>
