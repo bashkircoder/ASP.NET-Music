@@ -1,55 +1,237 @@
-﻿@model Music.ViewModels.AlbumViewModel
+﻿@using Music.Helpers
+@model Music.ViewModels.AlbumViewModel
 <div class="container py-5">
     <h1 class="text-center mb-5">Популярные Альбомы</h1>
 
     <form asp-controller="Album" asp-action="Index">
         <p>
             <label>
-                Сортировка дате релиза:
-                <select name="sortedType">
+                Количество на странице:
+                <select name="pageQuantity" asp-for="PageViewModel.PageQuantity">
+                    <option value="1">1</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                </select>
+            </label>
+            <label>
+                Сортировка по дате релиза:
+                <select name="sortedType" asp-for="SortedType">
                     <option value="0">--</option>
                     <option value="1">По возрастанию</option>
                     <option value="2">По убыванию</option>
                 </select>
             </label>
 
-            <label>Поиск по названию: <input type="text" name="albumName" /></label>
-            <input name="artistid" type="hidden" value="@Model.ArtistId" />
+            <label>Поиск по названию: <input type="text" name="albumName" asp-for="AlbumName"/></label>
+            <input name="artistid" type="hidden" value="@Model.ArtistId"/>
             <input type="submit" value="Поиск">
         </p>
     </form>
         
-        <div class="row">
+    <div class="row">
 
-            @foreach (var album in Model.Albums)
-            {
-                <div class="col-md-4 col-lg-3">
-                    <div class="card album-card">
-                        <img src="@album.UrlImg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">@album.Name</h5>
-                            <h5 class="card-title">@album.YearOfIssue</h5>
-                            <a asp-controller="Song" asp-action="Index" asp-route-id="@album.Id">Перейти</a>
-                        </div>
+        @foreach (var album in Model.Albums)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card album-card">
+                    <img src="@album.UrlImg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@album.Name</h5>
+                        <h5 class="card-title">@album.YearOfIssue</h5>
+                        <a asp-controller="Song" asp-action="Index" asp-route-id="@album.Id">Перейти</a>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 </div>
-<a asp-controller="Album"
-   asp-action="Index"
-   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-   asp-route-artistid="@Model.ArtistId"
-   asp-route-albumname="@Model.AlbumName"
-   asp-route-sortedType="@(Model.SortedType == Music.Helpers.SortedType.None)">
-    Назад
-</a>
 
-<a asp-controller="Album"
-   asp-action="Index"
-   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-   asp-route-artistid="@Model.ArtistId"
-   asp-route-albumname="@Model.AlbumName"
-   asp-route-sortedType="@(Model.SortedType == Music.Helpers.SortedType.None)">
-    Вперёд
-</a>
+
+@if (Model.PageViewModel.TotalPage < 6)
+{
+    <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.PageViewModel.HasPreviousPage ? String.Empty : "disabled")">
+            <a class="page-link" aria-label="Previous"
+               asp-controller="Album"
+               asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               asp-route-artistid="@Model.ArtistId"
+               asp-route-albumname="@Model.AlbumName"
+               asp-route-sortedType="@SortedType.None"
+               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Назад</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= Model.PageViewModel.TotalPage; i++)
+        {
+            <li class="page-item @(i == Model.PageViewModel.PageNumber ? "active" : String.Empty)">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@i</a>
+            </li>
+        }
+        <li class="page-item @(Model.PageViewModel.HasNextPage ? String.Empty : "disabled")">
+            <a class="page-link" aria-label="Next"
+               asp-controller="Album"
+               asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               asp-route-artistid="@Model.ArtistId"
+               asp-route-albumname="@Model.AlbumName"
+               asp-route-sortedType="@SortedType.None"
+               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Вперед</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+}
+else
+{
+    <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.PageViewModel.HasPreviousPage ? String.Empty : "disabled")">
+            <a class="page-link" aria-label="Previous"
+               asp-controller="Album"
+               asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               asp-route-artistid="@Model.ArtistId"
+               asp-route-albumname="@Model.AlbumName"
+               asp-route-sortedType="@SortedType.None"
+               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Назад</span>
+            </a>
+        </li>
+        @if (Model.PageViewModel.PageNumber == 1)
+        {
+            <li class="page-item active">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@Model.PageViewModel.PageNumber"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@Model.PageViewModel.PageNumber</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber + 1)</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 2)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber + 2)</a>
+            </li>
+        }
+        else if (Model.PageViewModel.PageNumber != Model.PageViewModel.TotalPage)
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber - 1)</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@Model.PageViewModel.PageNumber"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@Model.PageViewModel.PageNumber</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber + 1)</a>
+            </li>
+        } else 
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.TotalPage - 3)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.TotalPage - 3)</a>
+            </li>
+            <li class="page-item @(Model.PageViewModel.PageNumber != Model.PageViewModel.TotalPage ? "active" : String.Empty)">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.TotalPage - 2)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.TotalPage - 2)</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Album"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.TotalPage - 1)"
+                   asp-route-artistid="@Model.ArtistId"
+                   asp-route-albumname="@Model.AlbumName"
+                   asp-route-sortedType="@SortedType.None"
+                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.TotalPage - 1)</a>
+            </li>
+        }
+
+
+        <li class="page-item disabled"> ... </li>
+        <li class="page-item @(Model.PageViewModel.PageNumber == Model.PageViewModel.TotalPage ? "active" : String.Empty)"><a class="page-link"
+               asp-controller="Album"
+               asp-action="Index"
+               asp-route-page="@Model.PageViewModel.TotalPage"
+               asp-route-artistid="@Model.ArtistId"
+               asp-route-albumname="@Model.AlbumName"
+               asp-route-sortedType="@SortedType.None"
+               asp-route-pagequantity="@Model.PageViewModel.PageQuantity" >@Model.PageViewModel.TotalPage</a></li>
+        <li class="page-item @(Model.PageViewModel.HasNextPage ? String.Empty : "disabled")">
+            <a class="page-link" aria-label="Next"
+               asp-controller="Album"
+               asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               asp-route-artistid="@Model.ArtistId"
+               asp-route-albumname="@Model.AlbumName"
+               asp-route-sortedType="@SortedType.None"
+               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Вперед</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+}

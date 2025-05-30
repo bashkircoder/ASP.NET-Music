@@ -7,4 +7,8 @@ public class Album
     public required int YearOfIssue { get; set; }
     public required string UrlImg { get; set; }
     public required List<Song> Songs { get; set; }
+    
+    public int? ArtistId { get; set; }
+    
+    public Artist Artist { get; set; }
 }

@@ -2,6 +2,7 @@
 
 public class PageViewModel(int count, int pageNumber, int pageSize)
 {
+    public int PageQuantity { get; set; } = pageSize;
     public int PageNumber { get; set; } = pageNumber;
     public int TotalPage { get; set; } = (int)Math.Ceiling(count / (double)pageSize);
 

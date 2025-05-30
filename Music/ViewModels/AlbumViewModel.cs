@@ -8,7 +8,6 @@ namespace Music.ViewModels;
 
 public class AlbumViewModel
 {
-    const int PageSize = 20;
     public int ArtistId { get; set; }
 
     public  SortedType SortedType { get; set; } = 0;
@@ -17,8 +16,6 @@ public class AlbumViewModel
 
     public  List<Album> Albums { get; set; } = [];
     
-    
     public required PageViewModel PageViewModel { get; init; }
-    
     
 }

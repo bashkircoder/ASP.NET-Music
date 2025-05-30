@@ -9,36 +9,24 @@ namespace Music.Controllers;
 
 public class AlbumController(IAlbumRepository albumRepository) : Controller
 {
-    private const int _pageSize = 3;
-    public async Task<IActionResult> Index(int artistId, SortedType sortedType = SortedType.None, string albumName = "", int page = 1)
+    
+    public async Task<IActionResult> Index(int artistId, int pageQuantity = 1, SortedType sortedType = SortedType.None, string albumName = "",
+        int page = 1)
     {
-        
-        var albums = await albumRepository.GetAlbumsByArtistIdAsync(artistId);
-         
-        var filteredAlbums = albums.Where(a => a.Name.Contains(albumName, StringComparison.InvariantCultureIgnoreCase)).ToList();
-        
-        switch (sortedType)
-        {
-            case SortedType.CostAsk: filteredAlbums = filteredAlbums.OrderBy(x => x.YearOfIssue).ToList();
-                break;
-            case SortedType.CostDesc: filteredAlbums = filteredAlbums.OrderByDescending(x => x.YearOfIssue).ToList();
-                break;
-            case SortedType.None: 
-                break;
-        }
-        
-        filteredAlbums = filteredAlbums.Skip((page - 1) * _pageSize).Take(_pageSize).ToList();
+
+        var filteringAlbums = await albumRepository.FilteringAlbums(artistId, sortedType, albumName, page, pageQuantity);
+
+        var albumsCount = albumRepository.AlbumsCount;
 
         var albumViewModel = new AlbumViewModel
         {
-            PageViewModel = new PageViewModel(filteredAlbums.Count, page, _pageSize),
+            PageViewModel = new PageViewModel(albumsCount, page, pageQuantity),
             ArtistId = artistId,
-            Albums = filteredAlbums,
+            Albums = filteringAlbums,
             SortedType = sortedType,
             AlbumName = albumName
         };
 
         return View(albumViewModel);
     }
-    
 }
