@@ -7,7 +7,7 @@
         <p>
             <label>
                 Количество на странице:
-                <select name="pageQuantity" asp-for="PageViewModel.PageQuantity">
+                <select name="pageQuantity" asp-for="PageQuantity">
                     <option value="1">1</option>
                     <option value="3">3</option>
                     <option value="5">5</option>
@@ -55,37 +55,37 @@
             <a class="page-link" aria-label="Previous"
                asp-controller="Album"
                asp-action="Index"
-               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               asp-route-pagenumber="@(Model.PageNumber - 1)"
                asp-route-artistid="@Model.ArtistId"
                asp-route-albumname="@Model.AlbumName"
                asp-route-sortedType="@SortedType.None"
-               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+               asp-route-pagequantity="@Model.PageQuantity">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Назад</span>
             </a>
         </li>
         @for (int i = 1; i <= Model.PageViewModel.TotalPage; i++)
         {
-            <li class="page-item @(i == Model.PageViewModel.PageNumber ? "active" : String.Empty)">
+            <li class="page-item @(i == Model.PageNumber ? "active" : String.Empty)">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@i"
+                   asp-route-pagenumber="@i"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@i</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@i</a>
             </li>
         }
         <li class="page-item @(Model.PageViewModel.HasNextPage ? String.Empty : "disabled")">
             <a class="page-link" aria-label="Next"
                asp-controller="Album"
                asp-action="Index"
-               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               asp-route-pagenumber="@(Model.PageNumber + 1)"
                asp-route-artistid="@Model.ArtistId"
                asp-route-albumname="@Model.AlbumName"
                asp-route-sortedType="@SortedType.None"
-               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+               asp-route-pagequantity="@Model.PageQuantity">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only">Вперед</span>
             </a>
@@ -101,11 +101,11 @@ else
             <a class="page-link" aria-label="Previous"
                asp-controller="Album"
                asp-action="Index"
-               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               asp-route-pagenumber="@(Model.PageNumber - 1)"
                asp-route-artistid="@Model.ArtistId"
                asp-route-albumname="@Model.AlbumName"
                asp-route-sortedType="@SortedType.None"
-               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+               asp-route-pagequantity="@Model.PageQuantity">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Назад</span>
             </a>
@@ -116,64 +116,64 @@ else
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@Model.PageViewModel.PageNumber"
+                   asp-route-pagenumber="@Model.PageNumber"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@Model.PageViewModel.PageNumber</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@Model.PageNumber</a>
             </li>
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   asp-route-pagenumber="@(Model.PageNumber + 1)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber + 1)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageNumber + 1)</a>
             </li>
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.PageNumber + 2)"
+                   asp-route-pagenumber="@(Model.PageNumber + 2)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber + 2)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageNumber + 2)</a>
             </li>
         }
-        else if (Model.PageViewModel.PageNumber != Model.PageViewModel.TotalPage)
+        else if (Model.PageNumber != Model.PageViewModel.TotalPage)
         {
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   asp-route-pagenumber="@(Model.PageNumber - 1)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber - 1)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageNumber - 1)</a>
             </li>
             <li class="page-item active">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@Model.PageViewModel.PageNumber"
+                   asp-route-pagenumber="@Model.PageNumber"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@Model.PageViewModel.PageNumber</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@Model.PageNumber</a>
             </li>
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   asp-route-pagenumber="@(Model.PageNumber + 1)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.PageNumber + 1)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageNumber + 1)</a>
             </li>
         } else 
         {
@@ -181,53 +181,53 @@ else
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.TotalPage - 3)"
+                   asp-route-pagenumber="@(Model.PageViewModel.TotalPage - 3)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.TotalPage - 3)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageViewModel.TotalPage - 3)</a>
             </li>
-            <li class="page-item @(Model.PageViewModel.PageNumber != Model.PageViewModel.TotalPage ? "active" : String.Empty)">
+            <li class="page-item @(Model.PageNumber != Model.PageViewModel.TotalPage ? "active" : String.Empty)">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.TotalPage - 2)"
+                   asp-route-pagenumber="@(Model.PageViewModel.TotalPage - 2)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.TotalPage - 2)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageViewModel.TotalPage - 2)</a>
             </li>
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Album"
                    asp-action="Index"
-                   asp-route-page="@(Model.PageViewModel.TotalPage - 1)"
+                   asp-route-pagenumber="@(Model.PageViewModel.TotalPage - 1)"
                    asp-route-artistid="@Model.ArtistId"
                    asp-route-albumname="@Model.AlbumName"
                    asp-route-sortedType="@SortedType.None"
-                   asp-route-pagequantity="@Model.PageViewModel.PageQuantity">@(Model.PageViewModel.TotalPage - 1)</a>
+                   asp-route-pagequantity="@Model.PageQuantity">@(Model.PageViewModel.TotalPage - 1)</a>
             </li>
         }
 
 
         <li class="page-item disabled"> ... </li>
-        <li class="page-item @(Model.PageViewModel.PageNumber == Model.PageViewModel.TotalPage ? "active" : String.Empty)"><a class="page-link"
+        <li class="page-item @(Model.PageNumber == Model.PageViewModel.TotalPage ? "active" : String.Empty)"><a class="page-link"
                asp-controller="Album"
                asp-action="Index"
-               asp-route-page="@Model.PageViewModel.TotalPage"
+               asp-route-pagenumber="@Model.PageViewModel.TotalPage"
                asp-route-artistid="@Model.ArtistId"
                asp-route-albumname="@Model.AlbumName"
                asp-route-sortedType="@SortedType.None"
-               asp-route-pagequantity="@Model.PageViewModel.PageQuantity" >@Model.PageViewModel.TotalPage</a></li>
+               asp-route-pagequantity="@Model.PageQuantity" >@Model.PageViewModel.TotalPage</a></li>
         <li class="page-item @(Model.PageViewModel.HasNextPage ? String.Empty : "disabled")">
             <a class="page-link" aria-label="Next"
                asp-controller="Album"
                asp-action="Index"
-               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               asp-route-pagenumber="@(Model.PageNumber + 1)"
                asp-route-artistid="@Model.ArtistId"
                asp-route-albumname="@Model.AlbumName"
                asp-route-sortedType="@SortedType.None"
-               asp-route-pagequantity="@Model.PageViewModel.PageQuantity">
+               asp-route-pagequantity="@Model.PageQuantity">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only">Вперед</span>
             </a>

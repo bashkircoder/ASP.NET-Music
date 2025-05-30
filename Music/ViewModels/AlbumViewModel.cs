@@ -8,14 +8,16 @@ namespace Music.ViewModels;
 
 public class AlbumViewModel
 {
-    public int ArtistId { get; set; }
+    public int ArtistId { get; init; }
 
-    public  SortedType SortedType { get; set; } = 0;
+    public  SortedType SortedType { get; init; } = SortedType.None;
 
-    public  string AlbumName { get; set; } = "";
+    public string? AlbumName { get; init; } = "";
 
-    public  List<Album> Albums { get; set; } = [];
-    
-    public required PageViewModel PageViewModel { get; init; }
-    
+    public List<Album>? Albums { get; init; } = [];
+
+    public PageViewModel PageViewModel { get; init; }
+
+    public int PageQuantity { get; init; } = 1;
+    public int PageNumber { get; init; } = 1;
 }

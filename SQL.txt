@@ -1,0 +1,15 @@
+INSERT INTO "Artists" ("Name", "UrlImg") VALUES ('Queen', 'https://fonograf-studio.ru/upload/iblock/cef/ceff75dc035efe406e596100c8f946b7.jpg');
+
+INSERT INTO "Albums" ("Name", "YearOfIssue", "UrlImg", "ArtistId") VALUES ('Sheer Heart Attack', 1974, 'https://upload.wikimedia.org/wikipedia/ru/5/55/Sheer_Heart_Attack.jpg', 2);
+
+INSERT INTO "Songs" ("Name", "UrlSong") VALUES ('Killer Queen', 'https://www.last.fm/ru/music/Queen/Sheer+Heart+Attack/Killer+Queen');
+
+INSERT INTO "AlbumSong" ("AlbumsId", "SongsId") VALUES (3, 3);
+
+DELETE FROM "Songs" WHERE "Id" = 2;
+
+INSERT INTO "Albums" ("Name", "YearOfIssue", "UrlImg", "ArtistId") VALUES ('Queen', 1973, 'https://queenphotos.wordpress.com/wp-content/uploads/2013/07/1063718_185278758300252_298188981_o.jpg', 2);
+
+INSERT INTO "Albums" ("Name", "YearOfIssue", "UrlImg", "ArtistId") VALUES ('A Night at the Opera', 1975, 'https://cdn-images.dzcdn.net/images/cover/201607ab9cd92a1f977659c7c524cadf/0x1900-000000-80-0-0.jpg', 2);
+
+INSERT INTO "Albums" ("Name", "YearOfIssue", "UrlImg", "ArtistId") VALUES ('A Day at the Races', 1976, 'https://upload.wikimedia.org/wikipedia/ru/9/99/A_Day_at_the_Races.jpg', 2);

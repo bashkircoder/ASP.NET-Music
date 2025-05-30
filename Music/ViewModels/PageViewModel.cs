@@ -1,8 +1,7 @@
 ﻿namespace Music.Common;
 
-public class PageViewModel(int count, int pageNumber, int pageSize)
+public class PageViewModel(int count, int pageNumber = 1, int pageSize = 1)
 {
-    public int PageQuantity { get; set; } = pageSize;
     public int PageNumber { get; set; } = pageNumber;
     public int TotalPage { get; set; } = (int)Math.Ceiling(count / (double)pageSize);
 
