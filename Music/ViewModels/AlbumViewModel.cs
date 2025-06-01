@@ -10,6 +10,8 @@ public class AlbumViewModel
 {
     public int ArtistId { get; init; }
 
+    public int AlbumId { get; init; }
+
     public  SortedType SortedType { get; init; } = SortedType.None;
 
     public string? AlbumName { get; init; } = "";
@@ -20,4 +22,6 @@ public class AlbumViewModel
 
     public int PageQuantity { get; init; } = 1;
     public int PageNumber { get; init; } = 1;
+    
+    public bool? IsFavorite { get; set; } = null;
 }

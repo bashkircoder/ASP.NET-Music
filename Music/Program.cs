@@ -10,6 +10,7 @@ builder.Services.AddDbContext<MusicDbContext>(options =>
 
 builder.Services.AddScoped<IAlbumRepository, AlbumRepositoryAdo>();
 builder.Services.AddScoped<IArtistRepository, ArtistRepositoryAdo>();
+builder.Services.AddScoped<IUserRepository, UserRepositoryAdo>();
 
 builder.Services.AddControllersWithViews();
 

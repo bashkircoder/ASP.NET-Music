@@ -10,4 +10,7 @@ public class MusicDbContext(DbContextOptions<MusicDbContext> options): DbContext
     
     public DbSet<Song> Songs { get; set; }
     
+    public DbSet<User> Users { get; set; }
+    
+    public DbSet<ArtistUser> ArtistUsers { get; set; }
 }

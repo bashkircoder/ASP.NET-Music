@@ -36,6 +36,36 @@ namespace Music.Migrations
                     b.ToTable("AlbumSong");
                 });
 
+            modelBuilder.Entity("AlbumUser", b =>
+                {
+                    b.Property<int>("FavoriteAlbumsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FavoriteAlbumsId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("AlbumUser");
+                });
+
+            modelBuilder.Entity("ArtistUser", b =>
+                {
+                    b.Property<int>("FavoriteArtistsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FavoriteArtistsId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("ArtistUser");
+                });
+
             modelBuilder.Entity("Music.Models.Album", b =>
                 {
                     b.Property<int>("Id")
@@ -86,6 +116,25 @@ namespace Music.Migrations
                     b.ToTable("Artists");
                 });
 
+            modelBuilder.Entity("Music.Models.ArtistUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArtistUsers");
+                });
+
             modelBuilder.Entity("Music.Models.Song", b =>
                 {
                     b.Property<int>("Id")
@@ -107,6 +156,34 @@ namespace Music.Migrations
                     b.ToTable("Songs");
                 });
 
+            modelBuilder.Entity("Music.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SongUser", b =>
+                {
+                    b.Property<int>("FavoriteSongsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FavoriteSongsId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("SongUser");
+                });
+
             modelBuilder.Entity("AlbumSong", b =>
                 {
                     b.HasOne("Music.Models.Album", null)
@@ -122,11 +199,58 @@ namespace Music.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Music.Models.Album", b =>
+            modelBuilder.Entity("AlbumUser", b =>
+                {
+                    b.HasOne("Music.Models.Album", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteAlbumsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Music.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArtistUser", b =>
                 {
                     b.HasOne("Music.Models.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteArtistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Music.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Music.Models.Album", b =>
+                {
+                    b.HasOne("Music.Models.Artist", "Artist")
                         .WithMany("Albums")
                         .HasForeignKey("ArtistId");
+
+                    b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("SongUser", b =>
+                {
+                    b.HasOne("Music.Models.Song", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteSongsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Music.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Music.Models.Artist", b =>

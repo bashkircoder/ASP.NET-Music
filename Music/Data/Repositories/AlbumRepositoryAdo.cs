@@ -39,7 +39,7 @@ public class AlbumRepositoryAdo(MusicDbContext context) : IAlbumRepository
     {
         var album = context.Albums.AsQueryable();
         
-        var albums = album.Where(x => x.ArtistId == artistId);
+        var albums = album.Include(x => x.Users).Where(x => x.ArtistId == artistId);
         
         if (!string.IsNullOrEmpty(albumName))
         {

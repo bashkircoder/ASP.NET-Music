@@ -6,4 +6,6 @@ public class Artist
     public required string Name { get; set; }
     public required string UrlImg { get; set; }
     public required List<Album>? Albums { get; set; }
+
+    public List<User> Users { get; set; } = [];
 }
