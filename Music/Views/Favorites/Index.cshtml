@@ -1,0 +1,66 @@
+﻿@model Music.ViewModels.FavoritesViewModel
+<div class="container py-5">
+    <h1 class="text-center mb-5">Избранные Артисты</h1>
+    
+    <div class="row">
+
+        @foreach (var artist in Model.FavoriteArtists)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card album-card">
+                    <img src="@artist.UrlImg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@artist.Name</h5>
+
+                        <a class="btn btn-primary add-to-favorites"
+                           asp-controller="Favorites" asp-action="Index"
+                           asp-route-albumid=@Model.AlbumId
+                           asp-route-artistid=@artist.Id
+                           asp-route-favoritealbums="@Model.FavoriteAlbums"
+                           asp-route-favoriteartists="@(Model.FavoriteArtists)"
+                           asp-route-isFavorite="@(Model.IsFavorite = false)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                            </svg>
+                        </a>
+                        <a asp-controller="Album" asp-action="Index"
+                           asp-route-artistid="@artist.Id"
+                           class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h1 class="text-center mb-5">Избранные Альбомы</h1>
+    
+    <div class="row">
+    @foreach (var album in Model.FavoriteAlbums)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card album-card">
+                    <img src="@album.UrlImg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@album.Name</h5>
+                        <h5 class="card-title">@album.YearOfIssue</h5>
+
+                        <a class="btn btn-primary add-to-favorites"
+                           asp-controller="Favorites" asp-action="Index"
+                           asp-route-albumid=@album.Id
+                           asp-route-artistid=@Model.ArtistId
+                           asp-route-favoritealbums="@Model.FavoriteAlbums"
+                           asp-route-favoriteartists="@(Model.FavoriteArtists)"
+                           asp-route-isFavorite="@(Model.IsFavorite = false)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                            </svg>
+                        </a>
+                        <a asp-controller="Song" asp-action="Index" asp-route-id="@album.Id">Перейти</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+</div>
+
