@@ -16,21 +16,20 @@ public class HomeController(IArtistRepository artistRepository, IUserRepository 
         {
             if (model.IsFavorite == true)
             {
-                var artist = await artistRepository.GetDetailsByIdAsync(model.ArtistId);
-                await userRepository.AddFavoriteArtist(artist);
+                await AddArtistToFavorites(model.ArtistId);
             }
             else
             {
-                var artist = await artistRepository.GetDetailsByIdAsync(model.ArtistId);
-                
-                await userRepository.RemoveFavoriteArtist(artist);
+                await RemoveArtistFromFavorites(model.ArtistId);
             }
         }
+        
+        var favoriteArtists = await userRepository.GetFavoriteArtistsAsync();
         
         var artists = await artistRepository.GetAllAsync();
       
         
-        if (model.ArtistName != null)
+        if (model.ArtistName != "")
         {
             var filteredArtists = artists.Where(a => a.Name.Contains(model.ArtistName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
@@ -39,7 +38,8 @@ public class HomeController(IArtistRepository artistRepository, IUserRepository 
                 Artists = filteredArtists,
                 ArtistName = model.ArtistName,
                 IsFavorite = model.IsFavorite,
-                ArtistId = model.ArtistId
+                ArtistId = model.ArtistId,
+                FavoriteArtists = favoriteArtists
             };
             
             return View(viewModel);
@@ -51,10 +51,23 @@ public class HomeController(IArtistRepository artistRepository, IUserRepository 
                 Artists = artists,
                 ArtistName = model.ArtistName,
                 IsFavorite = model.IsFavorite,
-                ArtistId = model.ArtistId
+                ArtistId = model.ArtistId,
+                FavoriteArtists = favoriteArtists
             };
         
             return View(viewModel);
         }
+    }
+
+    public async Task AddArtistToFavorites(int artistId)
+    {
+        var artist = await artistRepository.GetDetailsByIdAsync(artistId);
+        await userRepository.AddFavoriteArtist(artist);
+    }
+    
+    public async Task RemoveArtistFromFavorites(int artistId)
+    {
+        var artist = await artistRepository.GetDetailsByIdAsync(artistId);
+        await userRepository.RemoveFavoriteArtist(artist);
     }
 }

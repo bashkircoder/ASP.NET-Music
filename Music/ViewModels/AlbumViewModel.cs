@@ -24,4 +24,6 @@ public class AlbumViewModel
     public int PageNumber { get; init; } = 1;
     
     public bool? IsFavorite { get; set; } = null;
+    
+    public HashSet<Album> FavoriteAlbums { get; set; } = [];
 }

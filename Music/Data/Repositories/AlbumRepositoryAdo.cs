@@ -60,7 +60,7 @@ public class AlbumRepositoryAdo(MusicDbContext context) : IAlbumRepository
             }
         }
         
-        AlbumsCount = albums.Count();
+        AlbumsCount = await albums.CountAsync();
  
         var paginationFilteredAlbums = await albums.ToPagedListAsync(page, pageSize);
 

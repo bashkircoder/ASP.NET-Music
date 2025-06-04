@@ -17,16 +17,15 @@ public class AlbumController(IAlbumRepository albumRepository, IUserRepository u
         {
             if (model.IsFavorite == true)
             {
-                var album = await albumRepository.GetDetailsByIdAsync(model.AlbumId);
-                await userRepository.AddFavoriteAlbum(album);
+                await AddAlbumToFavorites(model.AlbumId);
             }
             else
             {
-                var album = await albumRepository.GetDetailsByIdAsync(model.AlbumId);
-                
-                await userRepository.RemoveFavoriteAlbum(album);
+                await RemoveAlbumFromFavorites(model.AlbumId);
             }
         }
+        
+        var favoriteAlbums = await userRepository.GetFavoriteAlbums(1);
 
         var filteringAlbums = await albumRepository.FilteringAlbums(model.ArtistId, model.SortedType, model.AlbumName, model.PageNumber, model.PageQuantity);
 
@@ -43,8 +42,21 @@ public class AlbumController(IAlbumRepository albumRepository, IUserRepository u
             AlbumName = model.AlbumName,
             PageNumber = model.PageNumber,
             PageQuantity = model.PageQuantity,
+            FavoriteAlbums = favoriteAlbums
         };
 
         return View(albumViewModel);
+    }
+
+    public async Task AddAlbumToFavorites(int albumId)
+    {
+        var album = await albumRepository.GetDetailsByIdAsync(albumId);
+        await userRepository.AddFavoriteAlbum(album);
+    }
+    
+    public async Task RemoveAlbumFromFavorites(int albumId)
+    {
+        var album = await albumRepository.GetDetailsByIdAsync(albumId);
+        await userRepository.RemoveFavoriteAlbum(album);
     }
 }

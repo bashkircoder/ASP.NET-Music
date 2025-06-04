@@ -8,7 +8,7 @@ public class ArtistRepositoryAdo(MusicDbContext context) : IArtistRepository
 {
     public async Task<List<Artist>> GetAllAsync()
     {
-        var artists = await context.Artists.Include(x => x.Users).AsNoTracking().ToListAsync();
+        var artists = await context.Artists.Include(x => x.Users).ToListAsync();
 
         return artists;
     }

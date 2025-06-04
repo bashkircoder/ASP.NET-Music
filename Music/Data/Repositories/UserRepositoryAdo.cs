@@ -8,12 +8,9 @@ public class UserRepositoryAdo(MusicDbContext context) : IUserRepository
 {
     public async Task AddFavoriteArtist(Artist artist, int userId = 1)
     {
-        var users = await context.Users.Include(x => x.FavoriteAlbums).AsNoTracking().ToListAsync();
-        var user = users.First(x => x.UserId == userId);
+        var sqlQuery = $"INSERT INTO \"ArtistUser\" (\"FavoriteArtistsId\", \"UsersUserId\") VALUES ({artist.Id}, 1);";
         
-        user.FavoriteArtists.Add(artist);
-        context.Users.Update(user);
-        await context.SaveChangesAsync();
+        await context.Database.ExecuteSqlRawAsync(sqlQuery);
     }
     
     public async Task RemoveFavoriteArtist(Artist artist, int userId = 1)
@@ -59,5 +56,18 @@ public class UserRepositoryAdo(MusicDbContext context) : IUserRepository
     {
         var users = await context.Users.Include(x => x.FavoriteArtists).AsNoTracking().ToListAsync();
         return users;
+    }
+
+    public async Task<HashSet<Album>> GetFavoriteAlbums(int userid = 1)
+    {
+        var user = await context.Users.Include(x => x.FavoriteAlbums).FirstAsync(x => x.UserId == userid);
+        return [..user.FavoriteAlbums];
+    }
+    
+    public async Task<HashSet<Artist>> GetFavoriteArtistsAsync(int userId = 1)
+    {
+        var user = await context.Users.Include(x => x.FavoriteArtists).FirstAsync(x => x.UserId == userId);
+        
+        return [..user.FavoriteArtists];
     }
 }

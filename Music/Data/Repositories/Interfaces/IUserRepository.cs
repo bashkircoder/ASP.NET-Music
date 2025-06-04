@@ -4,17 +4,21 @@ namespace Music.Data.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    public Task AddFavoriteArtist(Artist artist, int userId = 1);
+    Task AddFavoriteArtist(Artist artist, int userId = 1);
 
-    public Task RemoveFavoriteArtist(Artist artist, int userId = 1);
+    Task RemoveFavoriteArtist(Artist artist, int userId = 1);
     
-    public Task AddFavoriteAlbum(Album album, int userId = 1);
+    Task AddFavoriteAlbum(Album album, int userId = 1);
 
-    public Task RemoveFavoriteAlbum(Album album, int userId = 1);
+    Task RemoveFavoriteAlbum(Album album, int userId = 1);
     
-    public Task AddFavoriteSong(Song song, int userId = 1);
+    Task AddFavoriteSong(Song song, int userId = 1);
 
-    public Task RemoveFavoriteSong(Song song, int userId = 1);
+    Task RemoveFavoriteSong(Song song, int userId = 1);
 
-    public Task<List<User>> GetAllUsersAsync();
+    Task<List<User>> GetAllUsersAsync();
+
+    Task<HashSet<Album>> GetFavoriteAlbums(int userid = 1);
+
+    Task<HashSet<Artist>> GetFavoriteArtistsAsync(int userId = 1);
 }

@@ -9,4 +9,6 @@ public class HomeViewModel()
     public int ArtistId { get; init; }
     public bool? IsFavorite { get; set; } = null;
     
+    public HashSet<Artist> FavoriteArtists { get; init; } = [];
+    
 }

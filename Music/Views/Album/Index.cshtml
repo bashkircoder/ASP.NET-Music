@@ -40,7 +40,7 @@
                         <h5 class="card-title">@album.Name</h5>
                         <h5 class="card-title">@album.YearOfIssue</h5>
                         
-                        @if (album.Users.Any(x => x.UserId == 1))
+                        @if (Model.FavoriteAlbums.Contains(album))
                         {
                         <a class="btn btn-primary add-to-favorites"
                            asp-controller="Album" asp-action="Index"
