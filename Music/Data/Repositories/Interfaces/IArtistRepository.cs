@@ -13,4 +13,6 @@ public interface IArtistRepository
     Task Delete(Artist artist);
 
     Task UpdateAsync(Artist newArtist);
+    
+    Task CreateArtistAlbumAsync(int artistId, Album album);
 }

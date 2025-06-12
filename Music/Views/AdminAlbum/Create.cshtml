@@ -1,0 +1,32 @@
+﻿@model Music.ViewModels.AdminAlbumCreateViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-controller="AdminAlbum" asp-action="Create">
+            <div class="form-group">
+                <input type="hidden" asp-for="@Model.Album.Id"/>
+            </div>
+            <p>Название</p>
+            <div class="form-group">
+                <input asp-for="@Model.Album.Name"/>
+            </div>
+            <p>Год выпуска</p>
+            <div class="form-group">
+                <input asp-for="@Model.Album.YearOfIssue"/>
+            </div>
+            <p>Путь картинки</p>
+            <div class="form-group">
+                <input asp-for="@Model.Album.UrlImg"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="@Model.Album.Songs"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="@Model.ArtistId"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
+</div>

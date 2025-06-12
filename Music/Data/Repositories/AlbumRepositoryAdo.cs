@@ -26,7 +26,13 @@ public class AlbumRepositoryAdo(MusicDbContext context) : IAlbumRepository
 
         return album;
     }
-    
+
+    public async Task<Song> GetSongDetailsByIdAsync(int id)
+    {
+        var song = await context.Songs.FirstAsync(x => x.Id == id);
+        return song;
+    }
+
     public async Task<List<Album>> GetAlbumsByArtistIdAsync(int id)
     {
         var artist = await context.Artists
@@ -65,5 +71,51 @@ public class AlbumRepositoryAdo(MusicDbContext context) : IAlbumRepository
         var paginationFilteredAlbums = await albums.ToPagedListAsync(page, pageSize);
 
         return paginationFilteredAlbums;
+    }
+
+    public async Task UpdateAsync(Album newAlbum)
+    {
+        var album = await context.Albums.FirstAsync(x => x.Id == newAlbum.Id);
+        
+        album.Id = newAlbum.Id;
+        album.Name = newAlbum.Name;
+        album.UrlImg = newAlbum.UrlImg;
+        album.YearOfIssue = newAlbum.YearOfIssue;
+        album.Songs = newAlbum.Songs;
+        
+        await context.SaveChangesAsync();
+    }
+
+    public async Task AddAsync(Album album)
+    {
+        await context.Albums.AddAsync(album);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateSongAsync(Song song)
+    {
+        var updateSong = await context.Songs.FirstAsync(x => x.Id == song.Id);
+        updateSong.Name = song.Name;
+        updateSong.UrlSong = song.UrlSong;
+        await context.SaveChangesAsync();
+    }
+
+    public async Task AddSongAsync(int albumId, Song song)
+    {
+        var album = context.Albums.Include(x => x.Songs).First(x => x.Id == albumId);
+        album.Songs.Add(song);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteSong(Song song)
+    {
+        context.Songs.Remove(song);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task Delete(Album albumToDelete)
+    {
+        context.Albums.Remove(albumToDelete);
+        await context.SaveChangesAsync();
     }
 }

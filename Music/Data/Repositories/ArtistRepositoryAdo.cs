@@ -47,7 +47,14 @@ public class ArtistRepositoryAdo(MusicDbContext context) : IArtistRepository
         
         await context.SaveChangesAsync();
     }
-    
+
+    public async Task CreateArtistAlbumAsync(int artistId, Album album)
+    {
+        var artist = await context.Artists.FirstAsync(x => x.Id == artistId);
+        artist.Albums.Add(album);
+        await context.SaveChangesAsync();
+    }
+
     public async Task Delete(Artist artist)
     {
         context.Artists.Remove(artist);

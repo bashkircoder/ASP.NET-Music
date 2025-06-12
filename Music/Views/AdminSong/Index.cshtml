@@ -1,16 +1,16 @@
-﻿@model Album
+﻿@model Music.ViewModels.AdminSongViewModel
 
 <!-- Шапка альбома -->
 <div class="album-header">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-3 text-center text-md-start">
-                <img src="@Model.UrlImg"
+                <img src="@Model.Album.UrlImg"
                      alt="Обложка альбома"
                      class="img-fluid rounded album-cover">
             </div>
             <div class="col-md-9 mt-4 mt-md-0">
-                <h1>@Model.Name</h1>
+                <h1>@Model.Album.Name</h1>
             </div>
         </div>
     </div>
@@ -22,9 +22,14 @@
         <!-- Список треков -->
         <div class="col-lg-8">
             <h2 class="mb-4">Песни</h2>
-
+            <a asp-controller="AdminAlbum" asp-route-id="@Model.Album.ArtistId" asp-action="Index" class="btn btn-primary">Обратно к альбомам</a>
+            <a asp-controller="AdminSong" asp-action="Create" class="btn btn-primary"
+               asp-route-Album="@Model.Album"
+               asp-route-AlbumId="@Model.AlbumId"
+               asp-route-Song="@Model.Song"
+               asp-route-SongId="@Model.SongId">Создать новую песню</a>
             <div class="track-list">
-                @foreach (var song in Model.Songs)
+                @foreach (var song in Model.Album.Songs)
                 {
                 <div class="track-item">
                     <div class="track-number">1</div>
@@ -35,6 +40,14 @@
                         <source src="@song.UrlSong" type="audio/mpeg">
                         Ваш браузер не поддерживает аудио элемент.
                     </audio>
+                    <a asp-action="Update"
+                       asp-route-Album="@Model.Album"
+                       asp-route-SongId="@song.Id"
+                       asp-route-AlbumId="@Model.AlbumId"
+                       class="btn btn-primary">Изменить</a>
+                    <a asp-action="Delete" asp-route-SongId="@song.Id" 
+                       asp-route-AlbumId="@Model.AlbumId"
+                       class="btn btn-primary">Удалить</a>
                 </div>
                 }
             </div>

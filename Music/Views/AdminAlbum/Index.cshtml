@@ -1,20 +1,33 @@
-﻿@model List<Album>
+﻿@model Music.ViewModels.AdminAlbumViewModel
 <div class="container py-5">
     <h1 class="text-center mb-5">Популярные Альбомы</h1>
 
     <div class="row">
+        
 
-        @foreach (var album in Model)
+        <div>
+            <a asp-controller="AdminArtist" asp-action="Index" class="btn btn-primary">Обратно к артистам</a>
+            <a asp-controller="AdminAlbum" asp-action="Create" class="btn btn-primary"
+               asp-route-artistid="@Model.ArtistId"
+               asp-route-album="@Model.Album"
+               asp-route-albums="@Model.Albums">Создать новый альбом</a>
+        </div>
+
+        @foreach (var album in Model.Albums)
         {
-        <div class="col-md-4 col-lg-3">
-            <div class="card album-card">
-                <img src="@album.UrlImg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">@album.Name</h5>
-                    <a asp-controller="Song" asp-action="Index" asp-route-id="@album.Id">Перейти</a>
+            <div class="col-md-4 col-lg-3">
+                <div class="card album-card">
+                    <img src="@album.UrlImg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@album.Name</h5>
+                        <h5 class="card-title">@album.YearOfIssue</h5>
+                        <a asp-action="Update" asp-route-id="@album.Id" class="btn btn-primary">Изменить</a>
+                        <a asp-controller="AdminSong" asp-action="Index" class="btn btn-primary"
+                           asp-route-id="@album.Id">Перейти</a>
+                        <a asp-action="Delete" asp-route-id="@album.Id" class="btn btn-primary">Удалить</a>
+                    </div>
                 </div>
             </div>
-        </div>
         }
     </div>
 </div>
