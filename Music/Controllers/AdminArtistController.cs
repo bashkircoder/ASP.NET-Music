@@ -1,13 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Music.APIKeys;
 using Music.Common;
 using Music.Data.Repositories.Interfaces;
 using Music.Models;
+using Music.ViewModels;
+using Uploadcare;
+using Uploadcare.Models;
+using Uploadcare.Upload;
 
 namespace Music.Controllers;
 
-public class AdminArtistController(IArtistRepository artistRepository) : Controller
+public class AdminArtistController(IArtistRepository artistRepository, IPhotoRepository photoRepository) : Controller
 {
-    private readonly string _controllerName = ControllerHelper.GetControllerName<AdminArtistController>(); 
+    private readonly string _controllerName = ControllerHelper.GetControllerName<AdminArtistController>();
+    
+    
     public async Task<IActionResult> Index()
     {
         var artist = await artistRepository.GetAllAsync();
@@ -36,9 +44,18 @@ public class AdminArtistController(IArtistRepository artistRepository) : Control
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create(Artist artist)
+    public async Task<IActionResult> Create(AdminArtistCreateViewModel model)
     {
+        var urlArtist = await photoRepository.UploadPhotoAsync(model.File);
+
+        var artist = new Artist()
+        {
+            Name = model.Name,
+            UrlImg = urlArtist,
+            Albums = []
+        };
         await artistRepository.AddAsync(artist);
+        
         return RedirectToAction(nameof(AdminArtistController.Index), _controllerName);
     }
     
