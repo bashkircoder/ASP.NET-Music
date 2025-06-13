@@ -6,7 +6,7 @@ using Music.ViewModels;
 
 namespace Music.Controllers;
 
-public class AdminAlbumController(IAlbumRepository albumRepository) : Controller
+public class AdminAlbumController(IAlbumRepository albumRepository, IPhotoRepository photoRepository) : Controller
 {
     private readonly string _controllerName = ControllerHelper.GetControllerName<AdminAlbumController>(); 
     public async Task<IActionResult> Index(int id)
@@ -56,7 +56,9 @@ public class AdminAlbumController(IAlbumRepository albumRepository) : Controller
     [HttpPost]
     public async Task<IActionResult> Create(AdminAlbumCreateViewModel adminAlbumCreateViewModel)
     {
+        var urlAlbum = await photoRepository.UploadPhotoAsync(adminAlbumCreateViewModel.File);
             adminAlbumCreateViewModel.Album.ArtistId = adminAlbumCreateViewModel.ArtistId;
+            adminAlbumCreateViewModel.Album.UrlImg = urlAlbum;
             await albumRepository.AddAsync(adminAlbumCreateViewModel.Album);
             
         return RedirectToAction(nameof(AdminAlbumController.Index), _controllerName,
