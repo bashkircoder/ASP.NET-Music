@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Music.Common;
 using Music.Data.Repositories;
 using Music.Data.Repositories.Interfaces;
+using Music.Filters;
 using Music.Models;
 using Music.ViewModels;
 
 namespace Music.Controllers;
 
+[AuthorizationFilter]
 public class AdminSongController(IAlbumRepository albumRepository) : Controller
 {
     private string _controllerName = ControllerHelper.GetControllerName<AdminSongController>(); 

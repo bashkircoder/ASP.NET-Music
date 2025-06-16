@@ -2,12 +2,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Music.Data.Repositories;
 using Music.Data.Repositories.Interfaces;
+using Music.Filters;
+using Music.Logger.Interfaces;
 using Music.Models;
 using Music.ViewModels;
 
 namespace Music.Controllers;
 
-public class HomeController(IArtistRepository artistRepository, IUserRepository userRepository) : Controller
+[ResourceFilter]
+[TypeFilter(typeof(ActionFilter))]
+public class HomeController(IArtistRepository artistRepository, IUserRepository userRepository, IMusicLogger musicLogger) : Controller
 {
     public async Task<IActionResult> Index(HomeViewModel model)
     {

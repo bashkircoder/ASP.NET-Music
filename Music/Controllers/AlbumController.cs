@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Music.Common;
 using Music.Data.Repositories.Interfaces;
+using Music.Filters;
 using Music.Helpers;
 using Music.Models;
 using Music.ViewModels;
 
 namespace Music.Controllers;
 
+[ResourceFilter]
 public class AlbumController(IAlbumRepository albumRepository, IUserRepository userRepository) : Controller
 {
     

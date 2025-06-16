@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Music.Common;
 using Music.Data.Repositories.Interfaces;
+using Music.Filters;
 using Music.Models;
 using Music.ViewModels;
 
 namespace Music.Controllers;
 
+[AuthorizationFilter]
 public class AdminAlbumController(IAlbumRepository albumRepository, IPhotoRepository photoRepository) : Controller
 {
     private readonly string _controllerName = ControllerHelper.GetControllerName<AdminAlbumController>(); 

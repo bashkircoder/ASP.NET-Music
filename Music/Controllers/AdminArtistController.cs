@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Music.APIKeys;
 using Music.Common;
 using Music.Data.Repositories.Interfaces;
+using Music.Filters;
 using Music.Models;
 using Music.ViewModels;
 using Uploadcare;
@@ -11,6 +12,7 @@ using Uploadcare.Upload;
 
 namespace Music.Controllers;
 
+[AuthorizationFilter]
 public class AdminArtistController(IArtistRepository artistRepository, IPhotoRepository photoRepository) : Controller
 {
     private readonly string _controllerName = ControllerHelper.GetControllerName<AdminArtistController>();
@@ -46,16 +48,19 @@ public class AdminArtistController(IArtistRepository artistRepository, IPhotoRep
     [HttpPost]
     public async Task<IActionResult> Create(AdminArtistCreateViewModel model)
     {
-        var urlArtist = await photoRepository.UploadPhotoAsync(model.File);
-
-        var artist = new Artist()
+        if (model.File != null)
         {
-            Name = model.Name,
-            UrlImg = urlArtist,
-            Albums = []
-        };
-        await artistRepository.AddAsync(artist);
-        
+            var urlArtist = await photoRepository.UploadPhotoAsync(model.File);
+
+            var artist = new Artist()
+            {
+                Name = model.Name,
+                UrlImg = urlArtist,
+                Albums = []
+            };
+            await artistRepository.AddAsync(artist);
+        }
+
         return RedirectToAction(nameof(AdminArtistController.Index), _controllerName);
     }
     

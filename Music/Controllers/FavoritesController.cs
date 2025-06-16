@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Music.Common;
 using Music.Data.Repositories.Interfaces;
+using Music.Filters;
 using Music.ViewModels;
 
 namespace Music.Controllers;
 
+[ResourceFilter]
 public class FavoritesController(IFavoritesRepository favoriteRepository) : Controller
 {
     public async Task<IActionResult> Index(FavoritesViewModel favoritesViewModel)
